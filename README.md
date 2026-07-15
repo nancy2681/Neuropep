@@ -1,97 +1,127 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Neuropep
 
-# Getting Started
+Neuropep is a modern, high-performance React Native application built with TypeScript, Redux Toolkit, and React Navigation. Designed as a peptide and performance tracker, it provides a personalized, AI-driven protocol builder, smart morning briefs, adherence tracking, and interactive logging tools.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## Technical Stack & Libraries
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **Core**: React Native (v0.86.0), React (v19.2.3), TypeScript
+- **State Management**: Redux Toolkit (`@reduxjs/toolkit` & `react-redux`)
+- **Navigation**: React Navigation Suite:
+  - `@react-navigation/native`
+  - `@react-navigation/native-stack`
+  - `@react-navigation/bottom-tabs`
+- **User Interface & Styling**: 
+  - `react-native-linear-gradient` (Vibrant gradient backdrops)
+  - `react-native-svg` & `react-native-svg-transformer` (Scalable vector icons/assets)
+  - `react-native-element-dropdown` (Sleek selection dropdowns)
+  - Custom thematic stylesheet structure
+- **Infrastructure**:
+  - `react-native-gesture-handler` & `react-native-safe-area-context`
+  - ESLint, Prettier, and TypeScript configurations
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+---
 
-```sh
-# Using npm
-npm start
+## Project Structure
 
-# OR using Yarn
-yarn start
+```
+Neuropep/
+├── App.tsx                       # App bootstrapper with providers
+├── src/
+│   ├── assets/                   # SVG icons and static resources
+│   ├── components/               # Highly reusable UI components
+│   ├── data/                     # Seed and metadata content for screens
+│   ├── navigation/               # App routing configs and tab navigators
+│   ├── screens/                  # Feature screens structured in folders
+│   ├── store/                    # Redux Toolkit configuration & slices
+│   ├── theme.ts                  # Centralized theme tokens (Colors, Spacing, Radius, Fonts)
+│   └── types/                    # Custom TypeScript declaration files
 ```
 
-## Step 2: Build and run your app
+### Detailed Folder Breakdown
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### 1. Components (`src/components/`)
+A library of modular UI widgets styled dynamically using `src/theme.ts`:
+- **`ScreenContainer`**: Standardized wrapper with Safe Area Handling.
+- **`PrimaryButton`**: Highly interactive primary button with support for linear gradients and icons.
+- **`GoalCard`**: Selection block designed to display primary goals (e.g., Fat Loss, Muscle Growth) with unique SVGs.
+- **`SelectionCard`**: Selection blocks used in experience and baseline configuration.
+- **`OptionPillGroup`**: Selectable horizontal pill groups for parameters like Biological Sex, Age, or Frequency.
+- **`PriorityPill`**: Customizable toggle pill mapping tracking priorities (Sleep, Weight, Mood, etc.).
+- **`LabeledTextInput`**: Premium text inputs featuring localized headers.
+- **`NumberStepper`**: A step controller allowing easy incrementing and decrementing of numerical inputs.
+- **`StepProgress`**: Horizontal progress bar illustrating builder steps.
+- **`SparkleIconBadge`**: Sparkling animated loader badge for AI calculations.
+- **`ValueCard`**: Card block for metric analytics (e.g. Weight, Sleep, Recovery).
+- **`StatCard`**: General stats metrics display.
+- **`SocialButton`**: Login/Authentication mock sign-in card.
 
-### Android
+### 2. Screens (`src/screens/`)
+- **`LoginScreen`**: Welcome screen styled with a hero cover background, Neuropep logo SVG, and a "Continue with Google" action buttons flow.
+- **`HomeScreen`**: Responsive dashboard with two distinct layouts controlled by Redux protocol state:
+  - *Locked State*: Displays an locked morning brief and prompts the user to activate their peptide protocol with the Protocol Builder.
+  - *Unlocked State*: Renders AI Morning Brief metrics, localized weight tracking alerts (dismissible), adherence percentage cards, today's protocol checklist with "Mark as done" functionality, priority metrics cards, and a floating AI chatbot button.
+- **`BuilderScreen`**: A multi-step intelligent protocol builder wizard collecting:
+  1. Primary Goal selection
+  2. Experience levels
+  3. Baseline profile parameters (Sex, Age, Weight, Height, Activity)
+  4. Dosage frequency & custom reminder timing with a calendar date preview slider
+  5. Multi-select tracking priorities
+  6. AI generator loading sequence with simulated background checks that transitions into the active state.
+- **`AddMedicationScreen`**: Interactive AI chat module allowing automated dosing calculations. Offers suggestions and prints calculated metrics (e.g., units per dose, vial concentration, recommended syringe type).
+- **`AddManualMedicationScreen`**: Traditional form-based fallback screen to specify custom dosage, BAC water mixture, concentration, start date, syringe styles, and vial capacity.
 
-```sh
-# Using npm
-npm run android
+### 3. Data (`src/data/`)
+Static structures loaded by forms and screens for clean code organization:
+- `addManualMedication.ts`: Syringe types, cycle periods, and medication names.
+- `addMedication.ts`: Message configurations and suggestion pills.
+- `builderScreen.tsx`: Selection data parameters, loading prompts, and button actions.
+- `homeScreen.ts`: Checklist items and dosage schedules.
 
-# OR using Yarn
-yarn android
-```
+### 4. Navigation (`src/navigation/`)
+- `AppNavigator.tsx`: Native stack managing the authorization boundaries and routing screens (`Login`, `Tabs`, `Builder`, `AddMedication`, `AddManualMedication`).
+- `MainTabNavigator.tsx`: High-end custom bottom tab bar containing screens (Home, Track, Builder, Lifestyle, Profile) with a specialized central floating Action Modal (Quick Links grid popup).
+- `types.ts`: TypeScript configurations for stack parameters (`RootStackParamList`, `RootTabParamList`).
 
-### iOS
+### 5. Store (`src/store/`)
+- `store.ts`: Redux Toolkit store registration.
+- `hooks.ts`: Typed hooks wrapping `useSelector` and `useDispatch`.
+- `slices/appSlice.ts`: Manages global application state including protocol activation (`isProtocolActivated`).
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+---
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## Getting Started
 
-```sh
-bundle install
-```
+### Prerequisites
+- Node.js (>= 22.11.0)
+- Watchman (optional, recommended for macOS)
+- CocoaPods (for iOS builds)
+- Android SDK / Xcode for simulation
 
-Then, and every time you update your native dependencies, run:
+### Local Installation & Startup
 
-```sh
-bundle exec pod install
-```
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+2. Install iOS pods (macOS only):
+   ```bash
+   cd ios && pod install && cd ..
+   ```
 
-```sh
-# Using npm
-npm run ios
+3. Start the Metro bundler:
+   ```bash
+   npm start
+   ```
 
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+4. Launch the application:
+   - For Android:
+     ```bash
+     npm run android
+     ```
+   - For iOS:
+     ```bash
+     npm run ios
+     ```
