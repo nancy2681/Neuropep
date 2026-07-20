@@ -3,7 +3,7 @@ import { theme } from '@/theme';
 
 export default StyleSheet.create({
   card: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.white,
     borderRadius: theme.radius.m,
     paddingHorizontal: theme.spacing.md,
     shadowColor: theme.colors.shadow,
