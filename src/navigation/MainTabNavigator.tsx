@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import HomeScreen from '@/screens/HomeScreen';
+import ProfileScreen from '@/screens/ProfileScreen';
 import HomeIcon from '@/assets/svgs/home.svg';
 import TrackIcon from '@/assets/svgs/track.svg';
 import PlusIcon from '@/assets/svgs/plus.svg';
@@ -107,7 +108,7 @@ const MainTabNavigator: React.FC = () => {
         />
         <Tab.Screen
           name="Profile"
-          component={() => <PlaceholderScreen label="Profile" />}
+          component={ProfileScreen}
         />
       </Tab.Navigator>
 

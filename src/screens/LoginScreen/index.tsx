@@ -1,18 +1,18 @@
 import React, { useCallback } from 'react';
 import { Image, ImageBackground, Pressable, Text, View } from 'react-native';
 import NeuropepSvg from '@/assets/svgs/Neuropep.svg';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import ScreenContainer from '@/components/ScreenContainer';
-import type { RootStackParamList } from '@/navigation/types';
 import styles from './styles';
 
+import { useAppDispatch } from '@/store/hooks';
+import { loginWithGoogle } from '@/store/slices/appSlice';
+
 const LoginScreen: React.FC = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const dispatch = useAppDispatch();
 
   const handleLogin = useCallback(() => {
-    navigation.replace('Tabs');
-  }, [navigation]);
+    dispatch(loginWithGoogle());
+  }, [dispatch]);
 
   const phoneImage = require('@/assets/images/Rectangle 1.png');
   const notificationImage = require('@/assets/images/Notifications.png');
